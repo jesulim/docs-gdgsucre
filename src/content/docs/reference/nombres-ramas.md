@@ -26,18 +26,17 @@ Donde:
 
 ### Ramas de características y correcciones
 
-| Tipo | Descripción | Ejemplo |
-|------|-------------|---------|
-| `feature/` | Nueva funcionalidad | `feature/login-oauth` |
-| `fix/` | Corrección de errores | `fix/header-layout` |
-| `hotfix/` | Corrección urgente para producción | `hotfix/security-breach` |
-| `bugfix/` | Similar a fix, usado en algunos flujos | `bugfix/form-validation` |
-| `release/` | Preparación para una versión | `release/v1.2.0` |
-| `docs/` | Cambios en documentación | `docs/api-endpoints` |
-| `style/` | Cambios de formato, estilos CSS, etc. | `style/button-colors` |
-| `refactor/` | Mejora del código sin cambiar funcionalidad | `refactor/auth-module` |
-| `test/` | Añadir o modificar pruebas | `test/cart-integration` |
-| `chore/` | Tareas de mantenimiento, dependencias | `chore/update-webpack` |
+| Tipo | Descripción |
+|------|-------------|
+| `feature/` | Nueva funcionalidad |
+| `fix/` | Corrección de errores |
+| `hotfix/` | Corrección urgente para producción |
+| `bugfix/` | Similar a fix, usado en algunos flujos |
+| `release/` | Preparación para una versión |
+| `docs/` | Cambios en documentación |
+| `style/` | Cambios de formato, estilos CSS, etc. |
+| `refactor/` | Mejora del código sin cambiar funcionalidad |
+| `test/` | Añadir o modificar pruebas |
 
 ## Mejores prácticas
 
