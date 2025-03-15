@@ -7,9 +7,6 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'GDG Sucre',
-			social: {
-				github: 'https://github.com/withastro/starlight',
-			},
 			sidebar: [
 				{
 					label: 'Guides',
