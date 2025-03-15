@@ -26,7 +26,6 @@ tipo/descripcion-breve
 1. Usa guiones medios entre palabras: `feature/user-authentication`
 2. Usa minúsculas: `fix/navbar-collapse`
 3. Sé específico pero breve: `feature/admin-dashboard`
-4. Incluye referencias a issues cuando aplique: `fix/login-#123`
 
 ## Ejemplos
 
