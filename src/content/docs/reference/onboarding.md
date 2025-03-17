@@ -1,9 +1,7 @@
 ---
-title: Onboarding para GDG Sucre Landing Page
+title: 🚀 Bienvenido a GDG Sucre Landing Page
 description: Guía para nuevos contribuidores al proyecto GDG Sucre Landing Page.
 ---
-
-# 🚀 Bienvenido a GDG Sucre Landing Page
 
 Este documento te guiará en el proceso de configuración, estructura del proyecto y mejores prácticas para contribuir a este repositorio. 
 
@@ -72,30 +70,6 @@ El sitio estará disponible en `http://localhost:3000`
 Si quieres visualizar los componentes de UI:
 ```sh
 pnpm storybook
-```
-
----
-
-## 🌳 Convenciones para Ramas en Git
-
-Para mantener el repositorio organizado, seguimos esta convención:
-
-```
-tipo/descripcion-breve
-```
-
-| Tipo       | Uso                                   |
-|------------|--------------------------------------|
-| `feature/` | Nueva funcionalidad                 |
-| `fix/`     | Corrección de errores               |
-| `docs/`    | Cambios en la documentación         |
-| `refactor/`| Mejoras de código sin afectar funcionalidad |
-| `test/`    | Añadir o modificar pruebas          |
-
-Ejemplo:
-```
-feature/agregar-formulario-registro
-fix/error-navbar
 ```
 
 ---
