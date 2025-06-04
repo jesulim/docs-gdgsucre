@@ -1,0 +1,210 @@
+---
+title: 🐍 Python + Streamlit = MVP en minutos
+description: Primeros pasos con Streamlit y la API de Gemini
+---
+
+En este tutorial, construiremos un Producto Mínimo Viable (MVP) para **análisis de sentimientos** utilizando Streamlit y la API de Gemini, mostrando los resultados de forma visual.
+
+## ¿Qué es Streamlit?
+
+Streamlit es un framework que transforma tus scripts Python aplicaciones web. Cuenta con una galería de widgets que facilita el desarrollo de interfaces.
+
+:::tip[Aplicación desplegada]
+Puedes ver un ejemplo del resultado en [road-bwai-sucre.streamlit.app](https://road-bwai-sucre.streamlit.app)
+:::
+## 📋 Requisitos
+
+- Python [www.python.org/downloads/](https://www.python.org/downloads/)
+- uv [docs.astral.sh/uv/#installation](https://docs.astral.sh/uv/#installation)
+
+## ⚙ Configuración inicial
+
+Crea un directorio y dentro del mismo ejecuta los siguientes comandos.
+```bash
+uv init
+uv add streamlit google-genai
+```
+
+Activa el entorno virtual según tu S.O.
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+
+    <Tabs>
+        <TabItem label="Linux y macOS">
+        ```bash
+        source .venv/bin/activate
+        ```
+        </TabItem>
+
+        <TabItem label="Windows">
+        ```powershell
+        .venv\Scripts\activate
+        ```
+        </TabItem>
+    </Tabs>
+
+
+## 💻 Construyendo la aplicación
+
+### 1. Hola mundo con Streamlit
+
+En tu archivo main.py importa Streamlit y agrega un widget de texto.
+
+Puedes ver los widgets disponibles en la [documentación de Streamlit](https://docs.streamlit.io/develop/api-reference)
+
+```python title=main.py
+import streamlit as st
+
+
+def main():
+    st.text("Hola mundo!")
+
+if __name__ == "__main__"
+    main()
+```
+
+Ejecuta el siguiente comando para abrir tu app en el navegador. Asegúrate de tener activado el entorno virtual.
+
+```bash
+streamlit run main.py
+```
+
+Streamlit abrirá tu navegador en `http://localhost:8501`.
+
+### 2. Agrega la API de Gemini
+
+Crea un archivo `secrets.toml` dentro del directorio `.streamlit` en la raíz del proyecto.
+
+import { FileTree } from "@astrojs/starlight/components"
+
+<FileTree>
+- mi-proyecto
+    - .streamlit
+        - **secrets.toml**
+    - main.py
+    - ...
+
+</FileTree>
+
+Agrega la API key de Gemini al archivo.
+
+```toml title=secrets.toml
+GEMINI_API_KEY = "AIzaS..."
+```
+
+Carga la API key en tu app usando `st.secrets`, un sistema seguro para manejar secretos.
+
+```python title=main.py
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+```
+
+:::caution
+Agrega el directorio .streamlit al archivo `.gitignore` para excluir la API key del control de versiones,
+esto evitará que se suba a tu repositorio cuando decidas desplegar el proyecto.
+
+```txt {4-5} title='.gitignore'
+...
+.venv
+
+# streamlit
+.streamlit
+```
+:::
+
+### 3. Respuesta estructurada con Gemini
+Para graficar las respuestas necesitamos una estructura manejable,
+Gemini es capaz de responder en formato JSON.
+
+Primero agregamos un modelo de Pydantic con la estructura para cada sentimiento.
+
+```python title=main.py
+from pydantic import BaseModel
+
+class Sentiment(BaseModel):
+    label: str
+    score: int
+    reason: str
+```
+
+Luego, agregamos una función para enviar el texto del usuario a Gemini, obteniendo una
+lista de resultados para cada sentimiento.
+Es necesario agregar el esquema y tipo de respuesta para obtener la respuesta estructurada.
+
+```python {16-19} title=main.py
+def get_gemini_response(text):
+    prompt = f"""
+    Clasifica del 0 al 100 el siguiente texto entre comillas bajo los siguientes sentimientos:
+    - Alegría
+    - Tristeza
+    - Enojo
+    - Miedo
+    - Desagrado
+
+    Texto: "{text}"
+    """
+
+    return client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt,
+        config={
+            "response_mime_type": "application/json",
+            "response_schema": list[Sentiment],
+        },
+    )
+```
+
+### 4. Interfaz de usuario con Streamlit
+Empezamos con widgets básicos `st.title` y `st.text`.
+
+Continuamos con un formulario para obtener el texto del usuario y un botón para enviarlo.
+Cuando el texto es enviado, se muestra un spinner mientras se espera la respuesta de Gemini,
+la cual se visualiza con el widget `st.json`.
+
+```python title=main.py
+def main():
+    st.title("Clasificador de sentimientos")
+    st.text("Introduce un texto para clasificarlo en diferentes sentimientos")
+
+    with st.form("form"):
+        text = st.text_area("Introduce un texto")
+        submit = st.form_submit_button("Analizar", type="primary")
+
+    if submit:
+        with st.spinner("Clasificando..."):
+            response = get_gemini_response(text)
+
+        st.json(response.text)
+```
+
+### 5. Visualización de resultados
+Podemos acceder a la lista de modelos Pydantic en `response.parsed`, necesitamos convertirla
+en un dataframe de Pandas para mostrarla en una tabla y un gráfico de barras.
+
+```python title=main.py
+import pandas as pd
+
+...
+
+sentiments: list[Sentiment] = response.parsed
+sentiments_data = [s.model_dump() for s in sentiments]
+st.dataframe(sentiments_data)
+
+sentiments_df = pd.DataFrame(sentiments_data)
+st.bar_chart(
+    sentiments_df,
+    x="label",
+    y="score",
+    color="label",
+    horizontal=True
+)
+```
+
+## 🚀 Despliegue en Streamlit Cloud
+
+1. Crea un repositorio en GitHub y sube el proyecto, asegúrate de no incluir el
+archivo `.streamlit/secrets.toml`.
+2. Crea una cuenta en [share.streamlit.io](https://share.streamlit.io) y conecta tu cuenta de GitHub.
+3. Selecciona tu repositorio y especifica `main.py` como archivo principal, también puedes
+editar la url y validar si está disponible.
+5. En "Advanced settings" copia y pega el contenido de tu archivo `secrets.toml`.
+6. Clickea en "Deploy" y tu app estará en internet 🌐.

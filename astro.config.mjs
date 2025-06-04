@@ -19,6 +19,10 @@ export default defineConfig({
 					label: 'Reference',
 					autogenerate: { directory: 'reference' },
 				},
+				{
+					label: 'Road to Build with AI 2025',
+					autogenerate: { directory: 'road-to-2025' },
+				},
 			],
 		}),
 	],
