@@ -1,5 +1,5 @@
 ---
-title: Convenciones para nombrar ramas en Git
+title: 🔀 Convenciones para nombrar ramas en Git
 description: Guía concisa para nombrar ramas en Git.
 ---
 
@@ -13,13 +13,13 @@ tipo/descripcion-breve
 
 ## Tipos de ramas comunes
 
-| Tipo | Uso |
-|------|-------------|
-| `feature/` | Nueva funcionalidad |
-| `fix/` | Corrección de errores |
-| `docs/` | Cambios en documentación |
+| Tipo        | Uso                                         |
+| ----------- | ------------------------------------------- |
+| `feature/`  | Nueva funcionalidad                         |
+| `fix/`      | Corrección de errores                       |
+| `docs/`     | Cambios en documentación                    |
 | `refactor/` | Mejora del código sin cambiar funcionalidad |
-| `test/` | Añadir o modificar pruebas |
+| `test/`     | Añadir o modificar pruebas                  |
 
 ## Buenas prácticas
 

@@ -9,14 +9,11 @@ export default defineConfig({
 			title: 'GDG Sucre',
 			sidebar: [
 				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
+					label: 'Guías',
+					autogenerate: { directory: 'guides' },
 				},
 				{
-					label: 'Reference',
+					label: 'Referencia',
 					autogenerate: { directory: 'reference' },
 				},
 				{
