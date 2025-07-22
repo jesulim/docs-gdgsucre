@@ -1,0 +1,122 @@
+---
+title: 🚀 Bienvenido a Web GDG Sucre
+description: Guía para nuevos contribuidores al proyecto GDG Sucre Landing Page.
+---
+
+Este documento te guiará en el proceso de configuración, estructura del proyecto y mejores prácticas para contribuir a este repositorio.
+
+---
+
+## 📌 Tecnologías Utilizadas
+
+El proyecto está construido con las siguientes tecnologías:
+
+- **[Bun](https://bun.com/)** - Gestor de paquetes rápido y eficiente.
+- **[Astro](https://astro.build/)** - Framework ligero para sitios estáticos y optimizados.
+- **[Tailwind CSS](https://tailwindcss.com/)** - Framework de CSS orientado a clases utilizarias.
+- **[shadcn/ui](https://ui.shadcn.com/)** - Biblioteca de componentes UI personalizables con Tailwind.
+- **[Supabase](https://supabase.com/)** - Backend como servicio para autenticación, base de datos y almacenamiento de archivos.
+- **[Starlight](https://starlight.astro.build/)** - Framework de documentación escrito en Astro.
+- **[Vercel](https://vercel.com/)** - Plataforma de despliegue y hosting.
+
+---
+
+## 📁 Estructura del Proyecto
+
+El repositorio se encuentra en [GitHub](https://github.com/jesulim/web-gdgsucre) y está organizado de la siguiente manera:
+
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+- public/   Archivos estáticos públicos: favicon, etc.
+- src
+  - assets/   Archivos estáticos de uso interno: Tipos de letra, imágenes
+  - components    Componentes UI
+    - io-extended-25    Componentes UI específicos para un evento
+      - Hero.astro
+    - ui/ Componentes generales de shadcn/ui
+    - Header.astro    Componente global
+  - layout    Estructura de las páginas
+    - BaseLayout.astro
+  - lib   Código compartido por componentes, páginas y endpoints
+    - services    Servicios para conectar a supabase
+      - profilleService.ts
+    - validators/   Schemas de zod para validación de datos
+  - pages   Páginas y Endpoints
+    - api     Endpoints
+      - register.ts
+    - registro
+      - [eventSlug].astro   Página de registro según el evento
+    - index.astro Página principal
+  - styles
+    - global.css    Estilos globales, fuente, colores, etc.
+- .env
+- .gitignore
+- README.md
+</FileTree>
+
+
+---
+
+## 🛠️ Configuración Inicial
+
+Para empezar a trabajar en el proyecto, sigue estos pasos:
+
+### 1️⃣ Clona el Repositorio
+
+```sh
+git clone https://github.com/jesulim/web-gdgsucre
+cd web-gdgsucre
+```
+
+### 2️⃣ Instala las Dependencias
+
+Usamos **Bun** para manejar las dependencias:
+
+```sh
+bun install
+```
+
+### 3️⃣ Ejecuta el Proyecto en Local
+
+Para correr la versión en desarrollo:
+
+```sh
+bun dev
+```
+
+El sitio estará disponible en `http://localhost:4321` 🎉
+
+---
+
+## 🚀 Despliegue
+
+Cada rama principal (`main`) se despliega automáticamente en **Vercel**.
+
+---
+
+## 📢 Cómo Contribuir
+
+Si deseas contribuir al proyecto:
+
+1. **Crea un issue** en GitHub si encuentras un problema o tienes una sugerencia.
+2. **Crea una nueva rama** siguiendo las [convenciones](/reference/branch).
+3. **Confirma tus cambios y sube un Pull Request (PR)**.
+4. **Espera la revisión y aprobación** para hacer el merge.
+
+
+
+
+---
+
+## ❓ Preguntas Frecuentes
+
+**📌 No sé mucho sobre Astro, ¿puedo contribuir?**
+Sí, el proyecto busca que cualquier persona pueda aprender y aportar. Puedes empezar con documentación, corrección de errores o mejora de estilos usando Tailwind.
+
+**📌 ¿Cómo puedo sugerir una nueva funcionalidad?**
+Crea un **issue** en GitHub explicando tu idea y discútela con el equipo.
+
+---
+
+🎉 ¡Gracias por tu interés en contribuir en la Web del GDG Sucre! 🚀
