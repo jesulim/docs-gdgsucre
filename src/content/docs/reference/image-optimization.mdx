@@ -1,0 +1,108 @@
+---
+title: 🖼️ Optimización de imágenes
+description: Mejores prácticas para optimizar imágenes.
+
+---
+import { Aside } from '@astrojs/starlight/components'
+import { LinkCard } from '@astrojs/starlight/components'
+
+
+
+Las imágenes mal optimizadas pueden ralentizar los tiempos de carga, afectar el rendimiento en móvil, dañar la experiencia de usuario y el SEO.
+
+
+## Imágenes vectoriales (SVG)
+Siempre que sea posible, utiliza imágenes vectoriales `.svg`, pesan menos y no pierden resolución al hacerles zoom,
+por lo general están disponibles para íconos y logos.
+
+Astro desde la versión 5.7 te permite importarlas directamente como un componente.
+
+```astro
+---
+import Rocket from '@/assets/icons/rocket.svg'
+---
+
+<Rocket />
+```
+
+## Squoosh
+La página [squoosh.app](https://squoosh.app/) reduce el peso de las imágenes sin perder calidad visual, utiliza formatos modernos como WebP o AVIF.
+
+<Aside type="tip">
+Reescala las imágenes, no necesitas una resolución de 1080x1080 pixeles si tu imagen se se mostrará en tamaño pequeño.
+</Aside>
+
+## Componente `<Image />` de Astro
+Si estás dentro de un componente `.astro` puedes usar el componente [Image](https://docs.astro.build/en/reference/modules/astro-assets/#image),
+el mismo requiere que la imagen esté en el directorio `src/assets`
+
+```astro
+---
+import { Image } from 'astro:assets'
+
+import heroImage from '@/assets/hero-landing.jpg'
+---
+
+<Image
+  src={heroImage}
+  alt="Imagen principal de la landing"
+/>
+```
+
+Es recomendable ubicar las imágenes en el directorio `src/assets/`, las imágenes en `public/` no son procesadas por el componente `<Image />`.
+
+## Propiedades de la etiqueta `<img />`
+Si estás fuera de un componente `.astro`, incluye siempre las propiedades `alt` `width` y `height` para mejorar la accesibilidad
+y reservar espacio (ancho x alto) mientras carga la imagen, esto último evita una mala experiencia de usuario cuando  la disposición de la página cambia al cargar una imagen.
+
+Además, puedes agregar las propiedades:
+- `loading="lazy"` para imágenes que no sean visibles de inmediato.
+- `decoding="async"` para decodificar las imágenes sin bloquear la carga de otras secciones de la página.
+
+```html
+<img
+  src="https://placehold.co/600x400"
+  alt="Imagen de ejemplo de placehold.co"
+  width="600"
+  height="400"
+  loading="lazy"
+  decoding="async"
+/>
+<span>Imagen de ejemplo</span>
+```
+<Aside type="tip">
+En el ejemplo anterior, gracias a que especificamos las propiedades width y height,
+el texto de la descripción no se desplazará de repente al cargar la imagen.
+</Aside>
+
+## PageSpeed Insights
+La página [pagespeed.web.dev](https://pagespeed.web.dev/) evalúa el rendimiento y accesibilidad de una web mediante métricas como Largest Contentful Paint (LCP) y Cumulative Layout Shift (CLS).
+- Busca la recomendación "Evite imágenes que causan cambio de diseño" o "Reduce el tamaño de las imágenes".
+- Si PageSpeed sugiere "serve images in next-gen formats", asegúrate de usar imágenes WebP/AVIF.
+- Comprueba que las imágenes no principales (por ejemplo, fuera del Hero) cargan de forma diferida (lazy).
+
+## Referencias
+
+<LinkCard
+  title="Guía de imágenes en Astro"
+  href="https://docs.astro.build/es/guides/images"
+  description="Documentación de Astro para imágenes en general"
+/>
+
+<LinkCard
+  title="Componente Image de Astro"
+  href="https://docs.astro.build/es/reference/modules/astro-assets/#image"
+  description="Documentación detallada de los componentes Image y Picture"
+/>
+
+<LinkCard
+  title="Rendimiento web"
+  href="https://web.dev/performance?hl=es-419"
+  description="Guías y artículos de web.dev sobre rendimiento"
+/>
+
+<LinkCard
+  title="Accesibilidad en la web"
+  href="https://web.dev/accessibility?hl=es-419"
+  description="Guías y artículos de web.dev sobre accesibilidad"
+/>

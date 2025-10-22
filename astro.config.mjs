@@ -7,6 +7,13 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'GDG Sucre',
+			defaultLocale: 'root',
+			locales: {
+				root: {
+					label: 'Español',
+					lang: 'es'
+				}
+			},
 			sidebar: [
 				{
 					label: 'Guías',

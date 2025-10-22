@@ -15,7 +15,7 @@ El proyecto está construido con las siguientes tecnologías:
 - **[Astro](https://astro.build/)** - Framework ligero para sitios estáticos y optimizados.
 - **[Tailwind CSS](https://tailwindcss.com/)** - Framework de CSS orientado a clases utilizarias.
 - **[shadcn/ui](https://ui.shadcn.com/)** - Biblioteca de componentes UI personalizables con Tailwind.
-- **[Supabase](https://supabase.com/)** - Backend como servicio para autenticación, base de datos y almacenamiento de archivos.
+- **[Supabase](http://supabase.com/docs/reference/javascript)** - Backend como servicio para autenticación, base de datos y almacenamiento de archivos.
 - **[Starlight](https://starlight.astro.build/)** - Framework de documentación escrito en Astro.
 - **[Vercel](https://vercel.com/)** - Plataforma de despliegue y hosting.
 
@@ -32,15 +32,16 @@ import { FileTree } from '@astrojs/starlight/components';
 - src
   - assets/   Archivos estáticos de uso interno: Tipos de letra, imágenes
   - components    Componentes UI
-    - io-extended-25    Componentes UI específicos para un evento
-      - Hero.astro
+    - events        Componentes UI específicos para cada evento
+      - io-extended-25
+        - Hero.astro      Componente específico de un evento
     - ui/ Componentes generales de shadcn/ui
     - Header.astro    Componente global
   - layout    Estructura de las páginas
     - BaseLayout.astro
   - lib   Código compartido por componentes, páginas y endpoints
-    - services    Servicios para conectar a supabase
-      - profilleService.ts
+    - services/    Servicios para conectar a supabase
+    - templates/   Plantillas de emails
     - validators/   Schemas de zod para validación de datos
   - pages   Páginas y Endpoints
     - api     Endpoints
@@ -50,7 +51,7 @@ import { FileTree } from '@astrojs/starlight/components';
     - index.astro Página principal
   - styles
     - global.css    Estilos globales, fuente, colores, etc.
-- .env
+- .env  Variables de entorno
 - .gitignore
 - README.md
 </FileTree>
@@ -91,31 +92,29 @@ El sitio estará disponible en `http://localhost:4321` 🎉
 
 ## 🚀 Despliegue
 
-Cada rama principal (`main`) se despliega automáticamente en **Vercel**.
+Cada rama se despliega automáticamente en **Vercel**.
+- La rama principal `main` se despliega directamente a www.gdgsucre.com
+- Las demás ramas, se despliegan a un subdominio de Vercel. Cuando subas tu Pull Request a GitHub, tendrás un comentario del bot vercel con el link al subdominio temporal.
 
 ---
 
-## 📢 Cómo Contribuir
+## 📢 Cómo contribuir
 
 Si deseas contribuir al proyecto:
 
-1. **Crea un issue** en GitHub si encuentras un problema o tienes una sugerencia.
-2. **Crea una nueva rama** siguiendo las [convenciones](/reference/branch).
-3. **Confirma tus cambios y sube un Pull Request (PR)**.
-4. **Espera la revisión y aprobación** para hacer el merge.
-
-
-
+1. **Crea una nueva rama** siguiendo las [convenciones](/reference/branch).
+2. **Confirma tus cambios y sube un Pull Request (PR)**.
+3. **Espera la revisión y aprobación** para hacer el merge a `main`.
 
 ---
 
 ## ❓ Preguntas Frecuentes
 
-**📌 No sé mucho sobre Astro, ¿puedo contribuir?**
-Sí, el proyecto busca que cualquier persona pueda aprender y aportar. Puedes empezar con documentación, corrección de errores o mejora de estilos usando Tailwind.
+**No sé mucho sobre Astro, ¿puedo contribuir?** <br/>
+Sí, el proyecto busca que cualquier persona pueda aprender y aportar. Puedes empezar con documentación, corrección de errores o mejora del código existente.
 
-**📌 ¿Cómo puedo sugerir una nueva funcionalidad?**
-Crea un **issue** en GitHub explicando tu idea y discútela con el equipo.
+**¿Cómo puedo sugerir una nueva funcionalidad?** <br/>
+Contacta al equipo o crea un **issue** en GitHub explicando tu idea.
 
 ---
 
