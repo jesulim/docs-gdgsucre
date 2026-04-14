@@ -6,7 +6,6 @@ description: Guía para nuevos contribuidores al proyecto GDG Sucre Landing Page
 Este documento te guiará en el proceso de configuración, estructura del proyecto y mejores prácticas para contribuir a este repositorio.
 
 ---
-
 ## 📌 Tecnologías Utilizadas
 
 El proyecto está construido con las siguientes tecnologías:
@@ -15,9 +14,51 @@ El proyecto está construido con las siguientes tecnologías:
 - **[Astro](https://astro.build/)** - Framework ligero para sitios estáticos y optimizados.
 - **[Tailwind CSS](https://tailwindcss.com/)** - Framework de CSS orientado a clases utilizarias.
 - **[shadcn/ui](https://ui.shadcn.com/)** - Biblioteca de componentes UI personalizables con Tailwind.
-- **[Supabase](http://supabase.com/docs/reference/javascript)** - Backend como servicio para autenticación, base de datos y almacenamiento de archivos.
+- **[Supabase](http://supabase.com/docs/reference/javascript)** - Backend como servicio para autenticación, base de datos y almacenamiento de archivos estáticos.
 - **[Starlight](https://starlight.astro.build/)** - Framework de documentación escrito en Astro.
 - **[Vercel](https://vercel.com/)** - Plataforma de despliegue y hosting.
+
+## 🏛️ Arquitectura
+
+Está divida en tres capas: Frontend, Backend y Supabase.
+
+```mermaid
+flowchart TD
+    User(["Usuario"])
+    AdminUser(["Usuario admin"])
+
+    subgraph Vercel ["Vercel"]
+        subgraph Frontend ["Frontend (Astro + React + Tailwind)"]
+            Landing["Landing Pages <br> /pages/eventos/*"]
+            Admin["Admin <br> /admin"]
+            Registro["Registro <br>/{eventSlug}/registro"]
+        end
+
+        subgraph Backend ["Backend (Astro SSR + Node.js)"]
+            API_Auth["Endpoints Auth<br/>/api/auth/*"]
+            API_Events["Endpoints Registro + Admin <br/>/api/register <br> /api/events"]
+            Services["Services <br> /lib/services/*.ts"]
+        end
+    end
+
+    subgraph SupabaseDB ["Supabase"]
+        Auth["Supabase Auth<br/>Google OAuth"]
+        DB[("PostgreSQL<br> Tablas y relaciones")]
+        Storage[(Storage <br> Archivos estáticos)]
+    end
+
+    User -->|"Visita"| Landing
+    User -->|"Accede"| Registro
+    AdminUser -->|"Gestiona"| Admin
+
+    Frontend <-->|"Fetching"| API_Events
+    Frontend <-->|"Autenticación"| API_Auth
+
+    API_Auth <-->|"OAuth "| Auth
+    API_Events --- Services
+    Services <-->|Query / Update| DB
+    Services <-->|Query / Update| Storage
+```
 
 ---
 
@@ -28,14 +69,14 @@ El repositorio se encuentra en [GitHub](https://github.com/jesulim/web-gdgsucre)
 import { FileTree } from '@astrojs/starlight/components';
 
 <FileTree>
-- public/   Archivos estáticos públicos: favicon, etc.
+- public/   Archivos estáticos públicos: favicon, og, etc.
 - src
-  - assets/   Archivos estáticos de uso interno: Tipos de letra, imágenes
+  - assets/   Archivos estáticos internos: Tipos de letra, imágenes
   - components    Componentes UI
-    - events        Componentes UI específicos para cada evento
+    - events        Componentes específicos para eventos
       - io-extended-25
-        - Hero.astro      Componente específico de un evento
-    - ui/ Componentes generales de shadcn/ui
+        - Hero.astro      Componente de un evento
+    - ui/ Componentes base shadcn/ui
     - Header.astro    Componente global
   - layout    Estructura de las páginas
     - BaseLayout.astro
@@ -46,6 +87,8 @@ import { FileTree } from '@astrojs/starlight/components';
   - pages   Páginas y Endpoints
     - api     Endpoints
       - register.ts
+    - eventos
+      - devfest-25.astro   Página de un evento
     - registro
       - [eventSlug].astro   Página de registro según el evento
     - index.astro Página principal
@@ -72,7 +115,7 @@ cd web-gdgsucre
 
 ### 2️⃣ Instala las Dependencias
 
-Usamos **Bun** para manejar las dependencias:
+Usamos **[Bun](https://bun.com/)** para manejar las dependencias:
 
 ```sh
 bun install
@@ -85,16 +128,19 @@ Para correr la versión en desarrollo:
 ```sh
 bun dev
 ```
-
+### 4️⃣ Abre el proyecto en el navegador
 El sitio estará disponible en `http://localhost:4321` 🎉
+
+#### 📄 Si necesitas conectarte a Supabase
+Solicita el archivo `.env` con las credenciales.
 
 ---
 
 ## 🚀 Despliegue
 
 Cada rama se despliega automáticamente en **Vercel**.
-- La rama principal `main` se despliega directamente a www.gdgsucre.com
-- Las demás ramas, se despliegan a un subdominio de Vercel. Cuando subas tu Pull Request a GitHub, tendrás un comentario del bot vercel con el link al subdominio temporal.
+- La rama `main` se despliega a www.gdgsucre.com
+- Las demás ramas se despliegan a un subdominio de Vercel. Cuando subas tu Pull Request a GitHub, tendrás un comentario del bot Vercel con el link.
 
 ---
 
@@ -104,7 +150,7 @@ Si deseas contribuir al proyecto:
 
 1. **Crea una nueva rama** siguiendo las [convenciones](/reference/branch).
 2. **Confirma tus cambios y sube un Pull Request (PR)**.
-3. **Espera la revisión y aprobación** para hacer el merge a `main`.
+3. **Solicita la revisión y aprobación** para hacer el merge a `main`.
 
 ---
 
